@@ -19,7 +19,6 @@
                 <i class="icofont-architecture-alt mr-2"></i>
                 <span class="font-weight-light">Controll - </span>
                 <span class="font-weight-bold ml-1">IT</span>
-
                 <i class="icofont-clock-time ml-2"></i>
             </div>
             <!-- Body-->
@@ -28,17 +27,21 @@
                 <?php include(TEMPLATE_PATH . '/messages.php') ?>
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" value="<?= $email ?>" class="form-control <?= isset($exception) && $exception->get('email') ? 'is-invalid' : '' ?>" placeholder="Email" autofocus>
+                    <input type="email" id="email" name="email" value="<?= $email ?>" class="form-control <?= isset($exception) && $errors['email'] ? 'is-invalid' : '' ?>" placeholder="Email" autofocus>
 
                     <!-- Mostrar a mensagem de erro por baixo do email-->
                     <div class="invalid-feedback">
-                        <?php echo (isset($exception) ?  ($exception->get('email')) : '') ?>
+                        <?php echo (isset($exception) ?  ($errors['email']) : '') ?>
                     </div>
 
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" autofocus>
+                    <input type="password" id="password" name="password" class="form-control <?= isset($exception) && $errors['password'] ? 'is-invalid' : '' ?>" placeholder="Password" autofocus>
+                    <!-- Mostrar a mensagem de erro por baixo da password-->
+                    <div class="invalid-feedback">
+                        <?php echo (isset($exception) ?  ($errors['password']) : '') ?>
+                    </div>
                 </div>
             </div>
             <!-- Footer-->

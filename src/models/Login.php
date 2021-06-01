@@ -13,7 +13,7 @@ class Login extends Model
             $errors['email'] = 'Informe o seu e-mail';
         }
         if (!$this->password) {
-            $errors['password'] = 'Insira o seu e-mail.';
+            $errors['password'] = 'Insira a sua password.';
         }
 
         if (count($errors) > 0) {
