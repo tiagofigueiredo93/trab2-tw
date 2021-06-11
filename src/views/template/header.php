@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/icofont.min.css">
     <link rel="stylesheet" href="assets/css/template.css">
-    <title>Controll - IT</title>
+
+    <title>Tiago - IT</title>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
     <header class="header">
         <div class="logo">
             <i class="icofont-architecture-alt mr-2"></i>
-            <span class="font-weight-light">Controll - </span>
+            <span class="font-weight-light">Tiago - </span>
             <span class="font-weight-bold ml-1">IT</span>
             <i class="icofont-clock-time ml-2"></i>
         </div>
@@ -27,10 +28,12 @@
         </div>
 
         <div class="spacer"></div>
-
         <div class="dropdown">
             <div class="dropdown-button">
-                <span class="ml-3">Utilizador Falso</span>
+                <img class="gravatar" src="<?= "http://www.gravatar.com/avatar.php?gravatar_id=" . md5(strtolower(trim($_SESSION['user']->email))) ?>" alt="user">
+                <span class="ml-3">
+                    <?= $_SESSION['user']->name ?>
+                </span>
                 <i class="icofont-simple-down mx-2"></i>
             </div>
             <div class="dropdown-content">

@@ -3,7 +3,13 @@
 //Para posteriormente utilizar em outros forms, etc
 $errors = [];
 
-if ($exception) {
+
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+
+    //unset para mostrar a mensagem uma vez só
+    unset($_SESSION['message']);
+} else if ($exception) {
     $message = [
         'type' => 'error',
         'message' => $exception->getMessage()

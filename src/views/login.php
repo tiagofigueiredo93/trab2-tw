@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/icofont.min.css">
     <link rel="stylesheet" href="assets/css/login.css">
-    <title>Controll - IT</title>
+    <title>Tiago - IT</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <div class="login-card card">
             <div class="card-header">
                 <i class="icofont-architecture-alt mr-2"></i>
-                <span class="font-weight-light">Controll - </span>
+                <span class="font-weight-light">Tiago - </span>
                 <span class="font-weight-bold ml-1">IT</span>
                 <i class="icofont-clock-time ml-2"></i>
             </div>

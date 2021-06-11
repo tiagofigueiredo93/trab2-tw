@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-
-
-</body>
-
-</html>
-
-
 <?php
+session_start();
 
-loadTemplateView('day_records');
+//requer uma sessão válida
+requireValidSession();
+
+
+$date = (new DateTime())->getTimestamp();
+$today = strftime('%d de %B de %Y', $date);
+
+/* //buscar o user á sessão
+$user = $_SESSION['user'];
+//registos do utilizador
+$records = WorkingHours::loadFormUserAndDate($user->id, date('Y-m-d')); */
+
+loadTemplateView('day_records', ['today' => $today,]);

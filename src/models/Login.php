@@ -1,7 +1,6 @@
 <?php
 
-//Login depende do user
-loadModel('User');
+
 class Login extends Model
 {
 

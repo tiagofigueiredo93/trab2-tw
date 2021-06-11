@@ -27,8 +27,22 @@ function loadTemplateView($viewName, $params = array())
             }
         }
     }
+
+    //buscar o user á sessão
+    $user = $_SESSION['user'];
+    //registos do utilizador
+    
+    $workinghours = WorkingHours::loadFormUserAndDate($user->id, date('Y-m-d'));
+    $workedInterval = $workinghours->getWorkedInterval()->format('%H:%I:%S');
+    $exitTime = $workinghours->getExitTime()->format('H:i:s');
+
     require_once(TEMPLATE_PATH . "/header.php");
     require_once(TEMPLATE_PATH . "/menu.php");
     require_once(VIEW_PATH . "/{$viewName}.php");
     require_once(TEMPLATE_PATH . "/footer.php");
+}
+
+function renderTitle($title, $subtitle, $icon = null)
+{
+    require_once(TEMPLATE_PATH . "/title.php");
 }
