@@ -2,7 +2,7 @@
 
 //DEFINIR O FUSO HORÁRIO
 date_default_timezone_set('Europe/Lisbon');
-setlocale(LC_TIME, 'pt_PT', 'pt_PT.utf-8', 'portuguese');
+setlocale(LC_ALL, 'Portuguese_Portugal.1252');
 
 //CONSTANTES 
 //60 segundos * 60 minutos * 8... 8horas

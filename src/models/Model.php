@@ -37,6 +37,12 @@ class Model
         $this->values[$key] = $value;
     }
 
+    //Retornar todos valores dentro do array $values
+    public function getValues()
+    {
+        return $this->values;
+    }
+
 
     //Obter os objetos da BD (passandos filtros)
     public static function get($filters = [], $columns = '*')
@@ -105,6 +111,29 @@ class Model
         //para retirar a ultima virgula e deixar um espaço em branco
         $sql[strlen($sql) - 1] = ' ';
         $sql .= "WHERE id = {$this->id}";
+        Database::executeSQL($sql);
+    }
+
+
+    //Fazer uma contagem consoante a coluna ou os filtros necessários
+    public static function getCount($filters = [])
+    {
+        $result = static::getResultSetFromSelect($filters, 'count(*) as count');
+
+        return $result->fetch_assoc()['count'];
+    }
+
+    //metodo de instancia delete
+    public function delete()
+    {
+        static::deleteById($this->id);
+    }
+
+
+    //APAGAR
+    public static function deleteById($id)
+    {
+        $sql = "DELETE FROM " . static::$tableName . " WHERE id = {$id}";
         Database::executeSQL($sql);
     }
 

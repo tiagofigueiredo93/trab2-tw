@@ -31,10 +31,11 @@ function loadTemplateView($viewName, $params = array())
     //buscar o user á sessão
     $user = $_SESSION['user'];
     //registos do utilizador
-    
-    $workinghours = WorkingHours::loadFormUserAndDate($user->id, date('Y-m-d'));
+
+    $workinghours = WorkingHours::loadFromUserAndDate($user->id, date('Y-m-d'));
     $workedInterval = $workinghours->getWorkedInterval()->format('%H:%I:%S');
     $exitTime = $workinghours->getExitTime()->format('H:i:s');
+    $activeClock = $workinghours->getActiveClock();
 
     require_once(TEMPLATE_PATH . "/header.php");
     require_once(TEMPLATE_PATH . "/menu.php");

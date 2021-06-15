@@ -9,7 +9,7 @@ requireValidSession();
 //buscar o user á sessão
 $user = $_SESSION['user'];
 //registos do utilizador
-$records = WorkingHours::loadFormUserAndDate($user->id, date('Y-m-d'));
+$records = WorkingHours::loadFromUserAndDate($user->id, date('Y-m-d'));
 
 
 //try para fazer o tratamento de inserção do TIME quando "success" ou caso seja "error" lançar uma exception

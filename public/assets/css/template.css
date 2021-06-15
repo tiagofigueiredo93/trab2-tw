@@ -5,7 +5,7 @@ body{
     grid-template-areas: 
         "header header"
         "sidebar content"
-        "sidebar footer";
+        "footer footer";
 
     height: 100vh;
     margin: 0;
@@ -219,3 +219,33 @@ footer.footer{
 .record {
     font-size: 2.2rem;
 }
+
+.summary-boxes{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+}
+.summary-box{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    min-width: 200px;
+    border-radius: 10px;
+    margin: 10px 10px;
+    
+}
+
+.summary-box .icon{
+    font-size: 3.5rem;
+}
+.summary-box .title{
+    font-size: 1.5rem;
+}
+.summary-box .value{
+    font-size: 2rem;
+}
+
+

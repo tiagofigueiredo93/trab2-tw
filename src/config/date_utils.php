@@ -43,7 +43,6 @@ function sumIntervals($interval1, $interval2)
 
 function subtractIntervals($interval1, $interval2)
 {
-
     $date = new DateTime('00:00:00');
     $date->add($interval1);
     $date->sub($interval2);
@@ -109,4 +108,10 @@ function getTimeStringFromSeconds($seconds)
     $s = $seconds - ($h * 3600) - ($m * 60);
 
     return sprintf('%02d:%02d:%02d', $h, $m, $s);
+}
+
+function formatDateWithLocale($date, $pattern)
+{
+    $time = getDateAsDateTime($date)->getTimestamp();
+    return strftime($pattern, $time);
 }

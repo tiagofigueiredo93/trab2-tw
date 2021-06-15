@@ -14,7 +14,7 @@ class WorkingHours extends Model
         'worked_time'
     ];
 
-    public static function loadFormUserAndDate($userId, $workDate)
+    public static function loadFromUserAndDate($userId, $workDate)
     {
         $registry = self::getOne(['user_id' => $userId, 'work_date' => $workDate]);
 
@@ -36,6 +36,19 @@ class WorkingHours extends Model
         if (!$this->time3) return 'time3';
         if (!$this->time4) return 'time4';
         return null;
+    }
+
+    //Atualizar os cronometros
+    public function getActiveClock()
+    {
+        $nextTime = $this->getNextTime();
+        if ($nextTime === 'time1' || $nextTime === 'time3') {
+            return 'exitTime';
+        } elseif ($nextTime === 'time2' || $nextTime === 'time4') {
+            return 'workedInterval';
+        } else {
+            return null;
+        }
     }
 
     //função responsável por marcar a presença
@@ -111,6 +124,67 @@ class WorkingHours extends Model
         }
     }
 
+    //Método para o saldo das horas
+    function getBalance()
+    {
+        //Se não for um dia do passado trabalhado, return vazio
+        if ($this->time1 && !isPastWorkday($this->work_date)) return '';
+
+        //Caso o tempo de trabalho seja as 8h e seja igual ás 8h da variável DAILY_TIME e não esteja a dever horas return vazio
+        if ($this->worked_time == DAILY_TIME) return '-';
+        $balance = $this->worked_time - DAILY_TIME;
+        $balanceString = getTimeStringFromSeconds(abs($balance));
+        //Para sabermos se é um tempo negativo ou positivo 
+        $sign = $this->worked_time >= DAILY_TIME ? '+' : '-';
+        return "{$sign}{$balanceString}";
+    }
+
+    //Método para verificar os funcionarios que não foram trabalhar naquele dia
+    public static function getAbsentUsers()
+    {
+        //buscar o dia atual
+        $today = new DateTime();
+
+        //WHERE end_date is NULL -> funcionarios que ainda estão na empresa
+        //id NOT IN são funcionários da empresa que não picaram presença naquele dia
+        $result = Database::getResultFromQuery("
+            SELECT name FROM users WHERE end_date is NULL AND id NOT IN (
+                SELECT user_id FROM working_hours WHERE work_date = '{$today->format('Y-m-d')}'
+                AND time1 IS NOT NULL
+                )
+        ");
+        //funcionários a faltar
+        $absentUsers = [];
+
+        //Caso resultado->num_rows > 0 existe funcioários para mostrar
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                //retornar só o nome
+                array_push($absentUsers, $row['name']);
+            }
+        }
+        return $absentUsers;
+    }
+
+    //Horas trabalhas naquele mês por todos os funcionários
+    public static function getWorkedTimeInMonth($yearAndMonth)
+    {
+        //-1 para ser o 1º dia do mês
+        $startDate = (new DateTime("{$yearAndMonth}-1"))->format('Y-m-d');
+        //Ultimo dia do Mês
+        $endDate = getLastDayOfMonth($yearAndMonth)->format('Y-m-d');
+
+        //
+        $result = static::getResultSetFromSelect([
+            //FILTROS
+            'raw' => "work_date BETWEEN '{$startDate}' AND '{$endDate}' "
+            //COLUNA
+        ], "sum(worked_time) as sum");
+
+        //retornar o result ir pegar no atributo sum
+        return $result->fetch_assoc()['sum'];
+    }
+
     //Método para obter o relatório Mensal-> como não vou obter nenhum registo específico -> método static 
     public static function getMonthlyReport($userId, $date)
     {
@@ -126,7 +200,7 @@ class WorkingHours extends Model
             'user_id' => $userId,
             'raw' => "work_date between '{$startDate}' AND '{$endDate}'"
         ]);
-                                                      
+
         if ($result) {
             while ($row = $result->fetch_assoc()) {
                 //chave $row['work_date'] (dia trabalhado)
